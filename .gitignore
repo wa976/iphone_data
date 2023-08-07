@@ -1,0 +1,14 @@
+save/
+data/
+Multicore-TSNE/
+report/
+*.swp
+__pycache__/
+*.pyc
+*.jpg
+*.ipynb
+*.pth
+*.json
+*.sh
+.ipynb_checkpoints/
+jupyter_notebook/
