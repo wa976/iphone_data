@@ -1,4 +1,3 @@
-python3 main.py --seed 1 --tag test3 --epochs 50 --learning_rate 5e-5 --weight_decay 1e-6 --cosine --batch_size 8  --from_sl_official --audioset_pretrained --method patchmix_cl
 
 
 
@@ -6,12 +5,17 @@ python3 main.py --seed 10 --tag test2 --dataset icbhi --class_split lungsound --
 
 
 
-python3 main.py --seed 1 --tag ssast1 --dataset icbhi --class_split lungsound --n_cls 4  --epochs 50 --learning_rate 5e-5 --weight_decay 1e-6 --cosine --batch_size 8 --optimizer adam --audioset_pretrained --test_fold official --pad_types repeat --resz 1 --n_mels 128 --ma_update --ma_beta 0.5 --from_sl_official --method patchmix_cl --mix_beta 1.0 --model ssast
-
-
-
 
 python3 main.py --seed 1 --tag eval1 --dataset icbhi --class_split lungsound --n_cls 4 --eval --pretrained --pretrained_ckpt 'save/icbhi_ast_patchmix_cl_test1/best.pth' --batch_size 8 --test_fold official --pad_types repeat --resz 1 --n_mels 128 --ma_update --ma_beta 0.5 --from_sl_official --method patchmix_cl
+
+
+
+
+iphone
+python main.py --seed 1 --tag iphone_1 --dataset icbhi --class_split lungsound --n_cls 4  --epochs 50 --learning_rate 5e-5 --weight_decay 1e-6 --cosine --batch_size 8 --optimizer adam --audioset_pretrained --test_fold 0 --pad_types repeat --resz 1 --n_mels 128 --ma_update --ma_beta 0.5 --from_sl_official --method patchmix_cl --mix_beta 1.0
+
+
+
 
 
 pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html

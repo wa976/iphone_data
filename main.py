@@ -214,11 +214,18 @@ def set_loader(args):
 
         train_dataset = ICBHIDataset(train_flag=True, transform=train_transform, args=args, print_flag=True)
         val_dataset = ICBHIDataset(train_flag=False, transform=val_transform, args=args, print_flag=True)
+        
+        #train_dataset_i = ICBHIDataset(train_flag=True, transform=train_transform, args=args, print_flag=True)
+        #val_dataset_i = ICBHIDataset(train_flag=False, transform=val_transform, args=args, print_flag=True)
+        
+        
+        print(train_dataset)
+        #print(train_dataset_i)
 
         print("finish making dataset")
 
-        torch.save(train_dataset, 'E:\seunggyu\lab\patch-mix/iphone_train_dataset_0.pth')
-        torch.save(val_dataset, 'E:\seunggyu\lab\patch-mix/iphone_val_dataset_0.pth')
+        torch.save(train_dataset, 'E:\seunggyu\lab\patch-mix/iphone_train_dataset_2class_0.pth')
+        torch.save(val_dataset, 'E:\seunggyu\lab\patch-mix/iphone_val_dataset_2class_0.pth')
 
         print("finish saving dataset")
 
@@ -335,7 +342,7 @@ def train(train_loader, model, classifier, projector, criterion, optimizer, epoc
     top1 = AverageMeter()
 
     end = time.time()
-    for idx, (images, labels, metadata) in enumerate(train_loader):
+    for idx, (images, labels) in enumerate(train_loader):
         if args.ma_update:
             # store the previous iter checkpoint
             with torch.no_grad():
@@ -425,7 +432,7 @@ def validate(val_loader, model, classifier, criterion, args, best_acc, best_mode
 
     with torch.no_grad():
         end = time.time()
-        for idx, (images, labels, metadata) in enumerate(val_loader):
+        for idx, (images, labels) in enumerate(val_loader):
             images = images.cuda(non_blocking=True)
             labels = labels.cuda(non_blocking=True)
             bsz = labels.shape[0]

@@ -132,6 +132,7 @@ class ICBHIDatasetori(Dataset):
         for f in filenames:
             # for 'official' test_fold, two patient dataset contain both train and test samples
             idx = f.split('_')[0] if test_fold in ['0', '1', '2', '3', '4'] else f
+            print(f,idx)
             if args.stetho_id >= 0:  # extract specific device dataset
                 if idx in patient_dict and self.file_to_device[f] == args.stetho_id:
                     self.filenames.append(f)
@@ -167,7 +168,7 @@ class ICBHIDatasetori(Dataset):
 
             # cycles_with_labels: [(audio_chunk, label, metadata), (...)]
             cycles_with_labels = [(data[0], data[1], self.file_to_metadata[filename]) for data in sample_data]
-            print("cycles with labels:",cycles_with_labels[0])
+            #print("cycles with labels:",cycles_with_labels[0])
             self.cycle_list.extend(cycles_with_labels)
             for d in cycles_with_labels:
                 # {filename: [label for cycle 1, ...]}

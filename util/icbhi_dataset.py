@@ -22,7 +22,7 @@ class ICBHIDataset(Dataset):
     def __init__(self, train_flag, transform, args, print_flag=True, mean_std=False):
         data_folder = os.path.join(args.data_folder, 'iphone_dataset')
         folds_file = os.path.join(args.data_folder, 'iphone_foldwise.txt')
-        official_folds_file = os.path.join(args.data_folder, 'icbhi_dataset/official_split.txt')
+        #official_folds_file = os.path.join(args.data_folder, 'icbhi_dataset/official_split.txt')
         test_fold = args.test_fold
         
         self.data_folder = data_folder
@@ -48,7 +48,7 @@ class ICBHIDataset(Dataset):
         # store stethoscope device information for each file or patient
 
         filenames = os.listdir(data_folder)
-        filenames =set([f.strip().split('.')[0] for f in filenames if '.wav' in f or '.txt' in f])
+        filenames =set([f.strip().split('.')[0] for f in filenames if '.wav' in f])
         #print("1st filenames :" ,filenames)
        
         # ==========================================================================
@@ -69,34 +69,17 @@ class ICBHIDataset(Dataset):
                 print('*' * 20)
                 print('Train and test 80-20% split with test_fold {}'.format(test_fold))
                 print('Patience number in {} dataset: {}'.format(self.split, len(patient_dict)))
-        else:  
-            """ 
-            args.test_fold == 'official', 60-40% split
-            two patient dataset contain both train and test samples
-            """
-            patient_dict = {}
-            all_fpath = open(official_folds_file).read().splitlines()
-            for line in all_fpath:
-                fpath, fold = line.strip().split('\t')
-                if train_flag and fold == 'train':
-                    # idx = fpath.strip().split('_')[0]
-                    patient_dict[fpath] = fold
-                elif not train_flag and fold == 'test':
-                    # idx = fpath.strip().split('_')[0]
-                    patient_dict[fpath] = fold
 
-            if print_flag:
-                print('*' * 20)
-                print('Train and test 60-40% split with test_fold {}'.format(test_fold))
-                print('File number in {} dataset: {}'.format(self.split, len(patient_dict)))
         # ==========================================================================
 
 
         self.filenames = []
         for f in filenames:
-            idx = f.split('_')[0] if test_fold in ['0', '1', '2', '3', '4'] else f
-            self.filenames.append(f)
-                    
+            idx = f.split('-')[0] if test_fold in ['0', '1', '2', '3', '4'] else f
+            print(f,idx)
+            if idx in patient_dict:
+                self.filenames.append(f)
+
         #print("filenames : ",self.filenames)
         
         self.audio_data = []  # each sample is a tuple with (audio_data, label, filename)
@@ -206,7 +189,7 @@ class ICBHIDataset(Dataset):
         # ==========================================================================
 
     def __getitem__(self, index):
-        audio_images, label, metadata = self.audio_images[index][0], self.audio_images[index][1], self.metadata[index]
+        audio_images, label = self.audio_images[index][0], self.audio_images[index][1]
 
         if self.args.raw_augment and self.train_flag and not self.mean_std:
             aug_idx = random.randint(0, self.args.raw_augment)
@@ -217,7 +200,7 @@ class ICBHIDataset(Dataset):
         if self.transform is not None:
             audio_image = self.transform(audio_image)
         
-        return audio_image, label, metadata
+        return audio_image, label
 
     def __len__(self):
         return len(self.audio_data)

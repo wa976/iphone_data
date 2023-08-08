@@ -279,9 +279,9 @@ def get_individual_cycles_torchaudio_iphone(args, data_folder, filename, sample_
     if last_letter == 'C':
         class_index = 1
     elif last_letter == 'W':
-        class_index = 2
+        class_index = 1
     elif last_letter == 'B':
-        class_index = 3
+        class_index = 1
     elif last_letter == 'N':
         class_index = 0
         
