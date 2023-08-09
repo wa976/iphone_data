@@ -75,6 +75,9 @@ def augment_raw_audio(sample, sample_rate, args):
     # sample = _shift(sample)
     # sample = _pitch(sample, sample_rate)
 
+    if isinstance(sample, torch.Tensor):
+        sample = sample.numpy()
+    
     if type(sample) == list:
         return sample[0]
     else:
