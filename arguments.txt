@@ -16,7 +16,7 @@ python main.py --seed 1 --tag iphone_1 --dataset icbhi --class_split lungsound -
 
 
 iphone 2 classes
-python main.py --seed 1 --tag iphone_1 --dataset icbhi --class_split lungsound --n_cls 2  --epochs 50 --learning_rate 5e-5 --weight_decay 1e-6 --cosine --batch_size 8 --optimizer adam --audioset_pretrained --test_fold 0 --pad_types repeat --resz 1 --n_mels 128 --ma_update --ma_beta 0.5 --from_sl_official --method patchmix_cl --mix_beta 1.0
+python main.py --seed 1 --tag iphone_4 --dataset icbhi --class_split lungsound --n_cls 2  --epochs 50 --learning_rate 5e-5 --weight_decay 1e-6 --cosine --batch_size 8 --optimizer adam --audioset_pretrained --test_fold 0 --pad_types repeat --resz 1 --n_mels 128 --ma_update --ma_beta 0.5 --from_sl_official --method patchmix_cl --mix_beta 1.0
 
 iphone 2 classes length 6
 python main.py --seed 1 --tag iphone_1 --dataset icbhi --class_split lungsound --n_cls 2  --epochs 50 --learning_rate 5e-5 --weight_decay 1e-6 --cosine --batch_size 8 --optimizer adam --audioset_pretrained --test_fold 0 --pad_types repeat --resz 1 --n_mels 128 --ma_update --ma_beta 0.5 --from_sl_official --method patchmix_cl --mix_beta 1.0 --desired_length 6

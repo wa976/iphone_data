@@ -224,8 +224,8 @@ def set_loader(args):
 
         print("finish making dataset")
 
-        torch.save(train_dataset, 'E:\seunggyu\lab\patch-mix/iphone_train_dataset_2class_4.pth')
-        torch.save(val_dataset, 'E:\seunggyu\lab\patch-mix/iphone_val_dataset_2class_4.pth')
+        #torch.save(train_dataset, 'E:\seunggyu\lab\patch-mix/iphone_train_dataset_2class_4.pth')
+        #torch.save(val_dataset, 'E:\seunggyu\lab\patch-mix/iphone_val_dataset_2class_4.pth')
 
         print("finish saving dataset")
 

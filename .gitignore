@@ -12,3 +12,4 @@ __pycache__/
 *.sh
 .ipynb_checkpoints/
 jupyter_notebook/
+visualizations/

@@ -125,6 +125,7 @@ class SpecAugment(torch.nn.Module):
         self.policy = args.specaug_policy
         self.mask = args.specaug_mask
         
+        
         # Policy Specific Parameters
         if self.policy == 'LB':
             self.W, self.F, self.m_F, self.T, self.p, self.m_T = 80, 27, 1, 100, 1.0, 1
@@ -248,6 +249,7 @@ class SpecAugment(torch.nn.Module):
 
             self.mel_spectrogram = self.freq_mask()
             self.mel_spectrogram = self.time_mask()
+            
         
         return self.mel_spectrogram.transpose(2, 1)
 

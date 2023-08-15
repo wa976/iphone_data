@@ -109,26 +109,38 @@ class ICBHIDataset(Dataset):
         for idx, filename in enumerate(self.filenames):
             self.filename_to_label[filename] = []
             
-            if self.visualize1:
+            last_letter = filename[-1]
+            #print(last_letter)
+            temp_class = 0
+            
+            if last_letter == 'C':
+                temp_class = 1
+            elif last_letter == 'W':
+                temp_class = 1
+            elif last_letter == 'B':
+                temp_class = 1
+            elif last_letter == 'N':
+                temp_class = 0
+            
+            if self.visualize1 and temp_class == 1:
                 data, _ = torchaudio.load(os.path.join(data_folder, filename+'.wav'))
                 #visualize_audio(data,f"Raw Audio for {filename}",args.sample_rate)
                 plt.figure(figsize=(10, 4))
                 plt.title(f"Raw Audio for {filename}")
                 plt.plot(data[0].numpy())
-                
             
                  # Save the figure to an image file
                 save_path = os.path.join("visualizations", f"Raw Audio for {filename}" + ".png")
                 os.makedirs(os.path.dirname(save_path), exist_ok=True)
                 plt.savefig(save_path)
                 
-                plt.show()
+                # plt.show()
                 plt.close()  # Close the plot to free up memory
             
             sample_data = get_individual_cycles_torchaudio_iphone(args, data_folder, filename, args.sample_rate, args.n_cls)
 
 
-            if self.visualize1:
+            if self.visualize1 and temp_class == 1:
                 for sample_chunk, label in sample_data:
                     #visualize_audio(sample_chunk,f"Audio Chunk for {filename} with label {label}",args.sample_rate)
                     plt.figure(figsize=(10, 4))
@@ -141,12 +153,12 @@ class ICBHIDataset(Dataset):
                     os.makedirs(os.path.dirname(save_path), exist_ok=True)
                     plt.savefig(save_path)
                     
-                    plt.show()
+                    #plt.show()
                     plt.close()  # Close the plot to free up memory
             
                     
                     
-            self.visualize1 = False
+            #self.visualize1 = False
             
             #print("sample_data : ", sample_data)
             # cycles_with_labels: [(audio_chunk, label, metadata), (...)]
@@ -201,7 +213,7 @@ class ICBHIDataset(Dataset):
 
                         # "SCL" version: cut longer sample or pad sample
                         audio = cut_pad_sample_torchaudio(torch.tensor(audio), args)
-                        if self.visualize2 and aug_idx > 0:
+                        if self.visualize2 and aug_idx > 0 and label == 1:
                             plt.figure(figsize=(10, 4))
                             plt.title(f"Augmented Audio for {filename}")
                             plt.plot(audio.numpy())
@@ -217,7 +229,7 @@ class ICBHIDataset(Dataset):
                 #print(self.visualize2)
                 #print(self.args.blank_region_clip)
                 
-                if self.args.blank_region_clip and self.visualize2:
+                if self.args.blank_region_clip and self.visualize2 and label==1:
                     plt.figure(figsize=(10, 4))
                     plt.title(f"Before Audio Blank Region Clipping for {filename}")
                     plt.imshow(image.squeeze(), aspect='auto', origin='lower')
@@ -228,7 +240,7 @@ class ICBHIDataset(Dataset):
                     os.makedirs(os.path.dirname(save_path), exist_ok=True)
                     plt.savefig(save_path)
                     
-                    plt.show()
+                    #plt.show()
                     plt.close()  # Close the plot to free up memory
                 
                 # blank region clipping from "RespireNet" paper..
@@ -251,7 +263,7 @@ class ICBHIDataset(Dataset):
                     image = cv2.resize(image, (image.shape[1], self.n_mels), interpolation=cv2.INTER_LINEAR)
                     image = image[..., np.newaxis]
 
-                    if self.args.blank_region_clip and self.visualize2:
+                    if self.args.blank_region_clip and self.visualize2 and label==1:
                         plt.figure(figsize=(10, 4))
                         plt.title(f"After Audio Blank Region Clipping for {filename}")
                         plt.imshow(image.squeeze(), aspect='auto', origin='lower')
@@ -263,10 +275,10 @@ class ICBHIDataset(Dataset):
                         os.makedirs(os.path.dirname(save_path), exist_ok=True)
                         plt.savefig(save_path)
                         
-                        plt.show()
+                        #plt.show()
                         plt.close()  # Close the plot to free up memory
                 
-                self.visualize2 = False
+                #self.visualize2 = False
                        
                 audio_image.append(image)
             self.audio_images.append((audio_image, label))
@@ -289,9 +301,11 @@ class ICBHIDataset(Dataset):
             audio_image = audio_images[aug_idx]
         else:
             audio_image = audio_images[0]
+            
         
         if self.transform is not None:
             audio_image = self.transform(audio_image)
+        
         
         return audio_image, label
 
